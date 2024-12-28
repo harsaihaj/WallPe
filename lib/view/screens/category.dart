@@ -10,6 +10,7 @@ class CategoryScreen extends StatefulWidget {
   final String namee;
   final String imgUrl;
 
+
   CategoryScreen({super.key, required this.namee, required this.imgUrl});
 
   @override
@@ -18,11 +19,14 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   late List<PhotosModel> searchResults = []; // Initialize the list
+  bool isLoading = true;
 
   // Modify the method to accept a parameter
   GetSearchResults(String nameee) async {
     searchResults = await ApiOperations.searchWallpapers(nameee);
-    setState(() {});
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -40,7 +44,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         centerTitle: true,
         title: CustomAppBar(),
       ),
-      body: SingleChildScrollView(
+      body:  isLoading? Center(child: CircularProgressIndicator(),):SingleChildScrollView(
         child: Column(
           children: [
 
